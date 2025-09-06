@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DemoResponse } from "@shared/api";
 
 import Layout from "@/components/learnbuddy/Layout";
-import VideoStudyPlayer from "@/components/learnbuddy/player/VideoStudyPlayer";
 import VideoStudyDemoWrapper from "@/components/learnbuddy/player/VideoStudyDemoWrapper";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import TranscriptManager from "@/components/learnbuddy/transcript/TranscriptManager";
 
 export default function Index({ page }: { page?: "leaderboard" | "settings" } = {}) {
   const [exampleFromServer, setExampleFromServer] = useState("");
