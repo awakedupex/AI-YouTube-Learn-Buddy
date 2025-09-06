@@ -86,13 +86,6 @@ export default function Index({ page }: { page?: "leaderboard" | "settings" } = 
           <div className="rounded-xl border p-3 bg-card/60 shadow-xl">
             <div className="grid gap-3">
               <VideoStudyDemoWrapper videoId="M7lc1UVf-VE" />
-              <div className="p-3 border rounded-lg bg-background">
-                <div className="text-sm text-foreground/70">Transcript & Upload</div>
-                <div className="mt-2">
-                  {/* Transcript loader */}
-                  <TranscriptManager onLoad={(segs) => console.log('loaded', segs.length)} />
-                </div>
-              </div>
             </div>
           </div>
         </div>
