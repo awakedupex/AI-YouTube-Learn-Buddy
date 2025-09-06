@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import VideoStudyPlayer from "./VideoStudyPlayer";
-import TranscriptManager from "../transcript/TranscriptManager";
 import { parseVTT } from "../transcript/parser";
 import { generateQuestionFromText, generateAssessmentFromSegments } from "../quiz/engine";
 import QuizOverlay from "../quiz/QuizOverlay";
@@ -11,6 +10,30 @@ import { summarize } from "../nlp/nlp";
 import { findSegmentAt } from "../transcript/parser";
 import { saveAttempt } from "../storage";
 
+const DEFAULT_VTT = `WEBVTT
+
+00:00.000 --> 00:07.000
+Welcome to our introduction on algorithms. In this lesson, we'll explore what algorithms are and why they matter.
+
+00:07.000 --> 00:15.000
+An algorithm is a step-by-step procedure for solving a problem. Think of a recipe or a set of instructions.
+
+00:15.000 --> 00:24.000
+We'll compare different algorithms by their efficiency, often measured using Big O notation like O(n) or O(log n).
+
+00:24.000 --> 00:33.000
+Let's start with a simple example: linear search. Linear search checks each element one-by-one until it finds a match.
+
+00:33.000 --> 00:42.000
+In contrast, binary search repeatedly divides a sorted list in half, quickly narrowing down where the value could be.
+
+00:42.000 --> 00:52.000
+Binary search runs in logarithmic time, O(log n), which is much faster than linear time, O(n), for large inputs.
+
+00:52.000 --> 01:00.000
+Next, we'll discuss sorting algorithms like bubble sort, insertion sort, and merge sort, each with different tradeoffs.
+`;
+
 export default function VideoStudyDemoWrapper({ videoId }: { videoId: string }) {
   const [segments, setSegments] = useState<any[]>([]);
   const [quiz, setQuiz] = useState<any | null>(null);
@@ -19,9 +42,17 @@ export default function VideoStudyDemoWrapper({ videoId }: { videoId: string }) 
   const [assessmentOpen, setAssessmentOpen] = useState(false);
 
   useEffect(() => {
-    fetch('/sample-transcript.vtt').then((r) => r.text()).then((t) => {
-      setSegments(parseVTT(t));
-    });
+    const load = async () => {
+      try {
+        const r = await fetch('/sample-transcript.vtt', { cache: 'no-store' });
+        if (!r.ok) throw new Error(String(r.status));
+        const t = await r.text();
+        setSegments(parseVTT(t));
+      } catch {
+        setSegments(parseVTT(DEFAULT_VTT));
+      }
+    };
+    load();
   }, []);
 
   const mapToSegment = (t: number) => {
