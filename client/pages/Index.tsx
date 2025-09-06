@@ -86,7 +86,7 @@ export default function Index({ page }: { page?: "leaderboard" | "settings" } = 
           </div>
           <div className="rounded-xl border p-3 bg-card/60 shadow-xl">
             <div className="grid gap-3">
-              <VideoStudyPlayer videoId="M7lc1UVf-VE" onQuizTrigger={(ts) => console.log('quiz at', ts)} onStruggle={(r) => console.log('struggle', r)} onReminder={() => console.log('reminder triggered')} />
+              <VideoStudyDemoWrapper videoId="M7lc1UVf-VE" />
               <div className="p-3 border rounded-lg bg-background">
                 <div className="text-sm text-foreground/70">Transcript & Upload</div>
                 <div className="mt-2">
