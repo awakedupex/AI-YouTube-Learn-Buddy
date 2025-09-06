@@ -58,7 +58,7 @@ export default function Index({ page }: { page?: "leaderboard" | "settings" } = 
       <section className="container pt-16 pb-10" id="hero">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <Badge variant="secondary" className="mb-4">Chrome Extension Concept</Badge>
+            <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm md:text-base">Chrome Extension Concept</Badge>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
               YouTube Learn Buddy
             </h1>
