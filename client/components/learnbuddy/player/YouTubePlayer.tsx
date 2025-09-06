@@ -26,29 +26,16 @@ export default function YouTubePlayer({ videoId, onReady, onStateChange }: YouTu
   const playerRef = useRef<any>(null);
 
   useEffect(() => {
-    const ensureScript = () =>
-      new Promise<void>((resolve) => {
-        if (window.YT && window.YT.Player) return resolve();
-        const tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        window.onYouTubeIframeAPIReady = () => resolve();
-        document.body.appendChild(tag);
-      });
-
     let destroyed = false;
 
-    ensureScript().then(() => {
-      if (!containerRef.current) return;
-      if (destroyed) return;
+    const createPlayer = () => {
+      if (destroyed || !containerRef.current || !window.YT || !window.YT.Player) return;
+      if (playerRef.current) return;
       playerRef.current = new window.YT.Player(containerRef.current, {
         height: "390",
         width: "640",
         videoId,
-        playerVars: {
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1,
-        },
+        playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
         events: {
           onReady: () => {
             const api = {
@@ -73,6 +60,28 @@ export default function YouTubePlayer({ videoId, onReady, onStateChange }: YouTu
           },
         },
       });
+    };
+
+    const ensureScript = () =>
+      new Promise<void>((resolve) => {
+        if (window.YT && window.YT.Player) return resolve();
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          prev?.();
+          resolve();
+        };
+        document.body.appendChild(tag);
+      });
+
+    ensureScript().then(() => {
+      if (destroyed) return;
+      // Try immediately
+      createPlayer();
+      // And retry shortly in case of race with layout/DOM
+      requestAnimationFrame(createPlayer);
+      setTimeout(createPlayer, 50);
     });
 
     return () => {
@@ -80,6 +89,7 @@ export default function YouTubePlayer({ videoId, onReady, onStateChange }: YouTu
       try {
         playerRef.current?.destroy?.();
       } catch {}
+      playerRef.current = null;
     };
   }, [videoId, onReady, onStateChange]);
 
