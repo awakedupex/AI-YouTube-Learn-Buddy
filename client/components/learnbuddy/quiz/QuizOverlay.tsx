@@ -8,15 +8,18 @@ export default function QuizOverlay({
   onSubmit,
   onSkip,
   onExplain,
+  onClose,
 }: {
   question: Question;
   onSubmit: (correct: boolean) => void;
   onSkip: () => void;
   onExplain: () => void;
+  onClose?: () => void;
 }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center p-3">
-      <Card className="w-full max-w-xl border-2">
+      <Card className="relative w-full max-w-xl border-2">
+        <button aria-label="Close" className="absolute right-3 top-3 text-foreground/60 hover:text-foreground" onClick={() => (onClose ?? onSkip)()}>×</button>
         <CardHeader>
           <CardTitle className="text-lg">Quick Check</CardTitle>
         </CardHeader>
