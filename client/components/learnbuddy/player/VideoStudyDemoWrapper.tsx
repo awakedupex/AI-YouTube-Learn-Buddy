@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import VideoStudyPlayer from "./VideoStudyPlayer";
 import TranscriptManager from "../transcript/TranscriptManager";
 import { parseVTT } from "../transcript/parser";
-import { generateQuestionFromText } from "../quiz/engine";
+import { generateQuestionFromText, generateAssessmentFromSegments } from "../quiz/engine";
 import QuizOverlay from "../quiz/QuizOverlay";
 import HelpPopup from "../HelpPopup";
 import AssessmentOverlay from "../assessment/AssessmentOverlay";
-import { generateAssessmentFromSegments } from "../quiz/engine";
 import { gradeSubjective } from "../assessment/grader";
+import { summarize } from "../nlp/nlp";
 
 export default function VideoStudyDemoWrapper({ videoId }: { videoId: string }) {
   const [segments, setSegments] = useState<any[]>([]);
   const [quiz, setQuiz] = useState<any | null>(null);
-  const [help, setHelp] = useState<string | null>(null);
+  const [helpText, setHelpText] = useState<string | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
   const [assessmentOpen, setAssessmentOpen] = useState(false);
 
   useEffect(() => {
@@ -31,23 +32,41 @@ export default function VideoStudyDemoWrapper({ videoId }: { videoId: string }) 
         }} onStruggle={(r) => {
           const seg = segments.find((s) => r.start >= s.start && r.start <= s.end) || segments[Math.floor(r.start/10)];
           if (!seg) return;
-          setHelp(seg.text);
+          setHelpText(seg.text);
+          setSummary(null);
         }} onReminder={() => {
           // open a small toast - for demo we'll set a help text
-          setHelp('It seems you are inactive. Remember to stay focused.');
+          setHelpText('It seems you are inactive. Remember to stay focused.');
         }} />
       </div>
 
       {quiz && (
-        <QuizOverlay question={quiz} onSubmit={(c) => { setQuiz(null); }} onSkip={() => setQuiz(null)} onExplain={() => setQuiz(null)} />
+        <QuizOverlay question={quiz} onSubmit={() => { setQuiz(null); }} onSkip={() => setQuiz(null)} onExplain={() => setQuiz(null)} />
       )}
 
-      {help && (
-        <HelpPopup text={help} onAccept={() => {
-          // show summary
-          setHelp(null);
-          setHelp('Summary: ' + help.slice(0, 220));
-        }} onClose={() => setHelp(null)} />
+      {helpText && (
+        <HelpPopup text={helpText} onAccept={() => {
+          // produce a concise summary using our lightweight summarizer
+          try {
+            const s = summarize(helpText, 2);
+            setSummary(s);
+          } catch {
+            setSummary(helpText.slice(0, 220));
+          }
+          setHelpText(null);
+        }} onClose={() => setHelpText(null)} />
+      )}
+
+      {summary && (
+        <div className="absolute inset-6 flex items-end justify-center pointer-events-none">
+          <div className="pointer-events-auto max-w-xl w-full rounded-xl border bg-card/80 p-4 shadow-xl">
+            <div className="font-semibold">Summary</div>
+            <p className="mt-2 text-sm text-foreground/80 whitespace-pre-line">{summary}</p>
+            <div className="mt-3 flex justify-end">
+              <button className="text-sm text-foreground/70 underline" onClick={() => setSummary(null)}>Close</button>
+            </div>
+          </div>
+        </div>
       )}
 
       {assessmentOpen && (
