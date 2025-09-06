@@ -6,17 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export default function Index({ page }: { page?: "leaderboard" | "settings" } = {}) {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  useEffect(() => {
-    fetchDemo();
-  }, []);
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch {}
-  };
+  const [exampleFromServer] = useState("");
 
   if (page === "leaderboard") return (
     <Layout>
