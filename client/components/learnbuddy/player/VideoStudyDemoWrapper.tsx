@@ -50,6 +50,9 @@ export default function VideoStudyDemoWrapper({ videoId }: { videoId: string }) 
         }} onReminder={() => {
           setHelpText('It seems you are inactive. Remember to stay focused.');
         }} onEnded={() => setAssessmentOpen(true)} />
+        <div className="mt-3 flex justify-end">
+          <button className="rounded-full bg-violet-600 text-white px-4 py-2 shadow-lg" onClick={() => setAssessmentOpen(true)}>Take Assessment</button>
+        </div>
       </div>
 
       {quiz && (
@@ -84,10 +87,6 @@ export default function VideoStudyDemoWrapper({ videoId }: { videoId: string }) 
       {assessmentOpen && (
         <AssessmentOverlay questions={generateAssessmentFromSegments(segments, 5)} onClose={() => setAssessmentOpen(false)} onSubmitSubjective={(ans) => gradeSubjective(ans)} onComplete={({ score, mode }) => saveAttempt({ ts: Date.now(), videoId, score, mode })} />
       )}
-
-      <div className="absolute right-4 bottom-16 md:bottom-20 flex flex-col gap-2">
-        <button className="rounded-full bg-violet-600 text-white px-4 py-2 shadow-lg" onClick={() => setAssessmentOpen(true)}>Take Assessment</button>
-      </div>
     </div>
   );
 }
