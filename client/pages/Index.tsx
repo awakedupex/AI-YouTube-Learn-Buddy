@@ -114,7 +114,7 @@ export default function Index({ page }: { page?: "leaderboard" | "settings" } = 
         <h2 className="text-2xl font-bold">Interactive Demo</h2>
         <p className="text-foreground/70 mt-1">Load a YouTube video and experience pop‑ups based on your playback behavior. For best results, try pausing, seeking, or rewinding a few times.</p>
         <div className="mt-6 rounded-xl border p-3 bg-card/60 shadow-xl">
-          <VideoStudyPlayer videoId="M7lc1UVf-VE" />
+          <VideoStudyDemoWrapper videoId="M7lc1UVf-VE" />
         </div>
       </section>
 
