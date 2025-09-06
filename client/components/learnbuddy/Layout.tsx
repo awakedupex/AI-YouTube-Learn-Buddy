@@ -44,7 +44,7 @@ export default function Layout() {
         </div>
       </header>
       <main className="flex-1">
-        <Outlet />
+        {/* children will be injected by pages */}
       </main>
       <footer className="border-t">
         <div className="container py-8 text-sm text-foreground/70 flex flex-col md:flex-row items-center justify-between gap-4">
