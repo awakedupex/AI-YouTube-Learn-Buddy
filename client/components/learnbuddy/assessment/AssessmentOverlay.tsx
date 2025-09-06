@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Question } from "../quiz/engine";
 
-export default function AssessmentOverlay({ questions, onClose, onSubmitSubjective }: { questions: Question[]; onClose: () => void; onSubmitSubjective: (answer: string) => Promise<{ score: number; feedback: string }>; }) {
+export default function AssessmentOverlay({ questions, onClose, onSubmitSubjective, onComplete }: { questions: Question[]; onClose: () => void; onSubmitSubjective: (answer: string) => Promise<{ score: number; feedback: string }>; onComplete?: (payload: { mode: "mcq" | "subjective"; score: number }) => void; }) {
   const [mode, setMode] = useState<"mcq" | "subjective">("mcq");
   const [selected, setSelected] = useState<number[]>(Array(questions.length).fill(-1));
   const [subjective, setSubjective] = useState("");
