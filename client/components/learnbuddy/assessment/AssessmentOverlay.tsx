@@ -22,7 +22,8 @@ export default function AssessmentOverlay({ questions, onClose, onSubmitSubjecti
 
   return (
     <div className="absolute inset-0 flex items-center justify-center p-3">
-      <Card className="w-full max-w-3xl border-2">
+      <Card className="relative w-full max-w-3xl border-2">
+        <button aria-label="Close" className="absolute right-3 top-3 text-foreground/60 hover:text-foreground" onClick={onClose}>×</button>
         <CardHeader>
           <CardTitle>End of Video Assessment</CardTitle>
         </CardHeader>
@@ -48,14 +49,17 @@ export default function AssessmentOverlay({ questions, onClose, onSubmitSubjecti
               ))}
               <div className="flex items-center justify-between">
                 <div className="text-sm text-foreground/70">Score: {score}%</div>
-                <Button onClick={onClose}>Close</Button>
+                <div className="flex gap-2">
+                  <Button variant="secondary" onClick={onClose}>Close</Button>
+                  <Button onClick={() => { onComplete?.({ mode: "mcq", score }); onClose(); }}>Submit & Save</Button>
+                </div>
               </div>
             </div>
           ) : (
             <div className="space-y-3">
               <textarea className="w-full min-h-[200px] rounded-md border p-3 bg-background" placeholder="Write what you learned..." value={subjective} onChange={(e) => setSubjective(e.target.value)} />
               <div className="flex gap-3">
-                <Button onClick={async () => setResult(await onSubmitSubjective(subjective))}>Submit for grading</Button>
+                <Button onClick={async () => { const r = await onSubmitSubjective(subjective); setResult(r); onComplete?.({ mode: "subjective", score: r.score }); }}>Submit for grading</Button>
                 <Button variant="secondary" onClick={onClose}>Close</Button>
               </div>
               {result && (
