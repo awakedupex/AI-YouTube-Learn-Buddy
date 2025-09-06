@@ -90,7 +90,7 @@ export default function Index({ page }: { page?: "leaderboard" | "settings" } = 
                 <div className="text-sm text-foreground/70">Transcript & Upload</div>
                 <div className="mt-2">
                   {/* Transcript loader */}
-                  <script />
+                  <TranscriptManager onLoad={(segs) => console.log('loaded', segs.length)} />
                 </div>
               </div>
             </div>
