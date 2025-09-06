@@ -19,7 +19,7 @@ const navLink = ({ isActive }: { isActive: boolean }) =>
       : "text-foreground/80 hover:text-foreground hover:bg-violet-500/10",
   );
 
-export default function Layout() {
+export default function Layout({ children }: { children?: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-[radial-gradient(1000px_400px_at_10%_-10%,hsl(var(--accent)/0.4),transparent),radial-gradient(800px_300px_at_80%_0%,hsl(var(--primary)/0.15),transparent)]">
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur">
@@ -44,7 +44,7 @@ export default function Layout() {
         </div>
       </header>
       <main className="flex-1">
-        {/* children will be injected by pages */}
+        {children}
       </main>
       <footer className="border-t">
         <div className="container py-8 text-sm text-foreground/70 flex flex-col md:flex-row items-center justify-between gap-4">
