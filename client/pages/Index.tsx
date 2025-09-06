@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { DemoResponse } from "@shared/api";
+import { useState } from "react";
 
 import Layout from "@/components/learnbuddy/Layout";
 import VideoStudyDemoWrapper from "@/components/learnbuddy/player/VideoStudyDemoWrapper";
