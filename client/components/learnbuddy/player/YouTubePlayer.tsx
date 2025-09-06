@@ -17,11 +17,21 @@ export type YTPlayerState =
 
 export interface YouTubePlayerProps {
   videoId: string;
-  onReady?: (api: { getCurrentTime: () => number; getDuration: () => number; seekTo: (s: number) => void; play: () => void; pause: () => void; }) => void;
+  onReady?: (api: {
+    getCurrentTime: () => number;
+    getDuration: () => number;
+    seekTo: (s: number) => void;
+    play: () => void;
+    pause: () => void;
+  }) => void;
   onStateChange?: (state: YTPlayerState) => void;
 }
 
-export default function YouTubePlayer({ videoId, onReady, onStateChange }: YouTubePlayerProps) {
+export default function YouTubePlayer({
+  videoId,
+  onReady,
+  onStateChange,
+}: YouTubePlayerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
 
@@ -29,7 +39,8 @@ export default function YouTubePlayer({ videoId, onReady, onStateChange }: YouTu
     let destroyed = false;
 
     const createPlayer = () => {
-      if (destroyed || !containerRef.current || !window.YT || !window.YT.Player) return;
+      if (destroyed || !containerRef.current || !window.YT || !window.YT.Player)
+        return;
       if (playerRef.current) return;
       playerRef.current = new window.YT.Player(containerRef.current, {
         height: "390",
@@ -95,7 +106,10 @@ export default function YouTubePlayer({ videoId, onReady, onStateChange }: YouTu
 
   return (
     <div className="w-full">
-      <div ref={containerRef} className="aspect-video w-full rounded-xl overflow-hidden shadow-xl" />
+      <div
+        ref={containerRef}
+        className="aspect-video w-full rounded-xl overflow-hidden shadow-xl"
+      />
     </div>
   );
 }

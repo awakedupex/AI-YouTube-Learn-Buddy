@@ -1,4 +1,9 @@
-export type Attempt = { ts: number; videoId: string; score: number; mode: "mcq" | "subjective" };
+export type Attempt = {
+  ts: number;
+  videoId: string;
+  score: number;
+  mode: "mcq" | "subjective";
+};
 const KEY = "ylb_attempts";
 
 export function loadAttempts(): Attempt[] {
@@ -35,11 +40,21 @@ export function computeDailyStreak(now = new Date()): number {
   return streak;
 }
 
-export function leaderboard(): { name: string; score: number; videoId: string; when: number }[] {
+export function leaderboard(): {
+  name: string;
+  score: number;
+  videoId: string;
+  when: number;
+}[] {
   const attempts = loadAttempts();
   // local, anonymized names
   return attempts
     .slice()
     .sort((a, b) => b.score - a.score || b.ts - a.ts)
-    .map((a, i) => ({ name: `User-${(i + 1).toString().padStart(2, "0")}`, score: a.score, videoId: a.videoId, when: a.ts }));
+    .map((a, i) => ({
+      name: `User-${(i + 1).toString().padStart(2, "0")}`,
+      score: a.score,
+      videoId: a.videoId,
+      when: a.ts,
+    }));
 }
