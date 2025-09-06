@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import Layout from "@/components/learnbuddy/Layout";
 import VideoStudyPlayer from "@/components/learnbuddy/player/VideoStudyPlayer";
+import VideoStudyDemoWrapper from "@/components/learnbuddy/player/VideoStudyDemoWrapper";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useMemo, useState } from "react";
