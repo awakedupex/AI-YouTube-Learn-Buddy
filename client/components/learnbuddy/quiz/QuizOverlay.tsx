@@ -9,12 +9,14 @@ export default function QuizOverlay({
   onSkip,
   onExplain,
   onClose,
+  title,
 }: {
   question: Question;
   onSubmit: (correct: boolean) => void;
   onSkip: () => void;
   onExplain: () => void;
   onClose?: () => void;
+  title?: string;
 }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center p-3">
@@ -27,7 +29,7 @@ export default function QuizOverlay({
           ×
         </button>
         <CardHeader>
-          <CardTitle className="text-lg">Quick Check</CardTitle>
+          <CardTitle className="text-lg">{title ?? "Quick Check"}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
