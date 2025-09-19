@@ -118,7 +118,7 @@ export default function Index({
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <Feature
             title="Smart Quiz Pop‑ups"
-            desc="Auto‑triggered when engagement dips. Multiple choice or fill‑in with explanations."
+            desc="MCQs with solutions will pop up during engagement dips"
           />
           <Feature
             title="Struggle Detection"
