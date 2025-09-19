@@ -6,7 +6,7 @@ function Logo() {
   return (
     <Link to="/" className="flex items-center gap-2">
       <span className="inline-block h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 via-fuchsia-500 to-indigo-500" />
-      <span className="font-extrabold text-lg tracking-tight">YouTube Learn Buddy</span>
+      <span className="font-extrabold text-lg tracking-tight">Learn Buddy</span>
     </Link>
   );
 }
@@ -25,7 +25,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur">
         <div className="container flex h-16 items-center justify-between">
           <Logo />
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 ml-auto">
             <NavLink to="/" className={navLink} end>
               Home
             </NavLink>
@@ -36,11 +36,6 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
               Settings
             </NavLink>
           </nav>
-          <div className="flex items-center gap-2">
-            <Button asChild variant="secondary">
-              <a href="#demo">Try the Demo</a>
-            </Button>
-          </div>
         </div>
       </header>
       <main className="flex-1">
