@@ -70,7 +70,7 @@ export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onSt
 
       // heuristic quiz trigger: if interactions exceed threshold in bucket
       const b = bucketsRef.current[bucket];
-      if (b && (b.rewinds + b.pauses + b.seeks) >= 4) {
+      if (b && (b.rewinds + b.pauses) >= 4) {
         onQuizTrigger?.(bucket * 10);
         // dampen to avoid repeat
         bucketsRef.current[bucket] = { pauses: 0, rewinds: 0, seeks: 0 };
