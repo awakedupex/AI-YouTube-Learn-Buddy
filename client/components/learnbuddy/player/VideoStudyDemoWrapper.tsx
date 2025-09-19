@@ -44,9 +44,11 @@ export default function VideoStudyDemoWrapper({
 }) {
   const [segments, setSegments] = useState<any[]>([]);
   const [quiz, setQuiz] = useState<any | null>(null);
+  const [quizTitle, setQuizTitle] = useState<string | undefined>(undefined);
   const [helpText, setHelpText] = useState<string | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
   const [assessmentOpen, setAssessmentOpen] = useState(false);
+  const [assessmentQuestions, setAssessmentQuestions] = useState<any[] | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -75,6 +77,79 @@ export default function VideoStudyDemoWrapper({
     );
   };
 
+  // Predefined quick quizzes (times in seconds)
+  const quickQuizzes: { time: number; question: import("../quiz/engine").Question }[] = [
+    {
+      time: 2 * 60 + 24,
+      question: {
+        type: "mcq",
+        prompt: "Data science involves having knowledge in which of these fields?",
+        options: [
+          "Mathematics and statistics only",
+          "Computer science only",
+          "Your domain expertise only",
+          "All of the above",
+        ],
+        correctIndex: 3,
+      },
+    },
+    {
+      time: 4 * 60 + 16,
+      question: {
+        type: "mcq",
+        prompt: "Which of these is an application of data science?",
+        options: [
+          "A recommender system of an e-commerce website",
+          "Creating HTML web pages",
+          "Installing operating systems",
+          "Writing documentation manuals",
+        ],
+        correctIndex: 0,
+      },
+    },
+    {
+      time: 6 * 60 + 7,
+      question: {
+        type: "mcq",
+        prompt: "Which country has the highest number of data scientists on Kaggle?",
+        options: ["India", "United States", "China", "Germany"],
+        correctIndex: 0,
+      },
+    },
+  ];
+
+  // End of video assessment questions
+  const endAssessment: import("../quiz/engine").Question[] = [
+    {
+      type: "mcq",
+      prompt: "What is data science?",
+      options: [
+        "Using processes and systems to extract knowledge or insights from data",
+        "Creating databases for large corporations",
+        "Designing user interfaces for mobile applications",
+        "Managing network security systems",
+      ],
+      correctIndex: 0,
+    },
+    {
+      type: "mcq",
+      prompt: "Which of these offline applications use data science?",
+      options: [
+        "Predictive maintenance of machines in industries",
+        "Monitoring real-time disease outbreaks",
+        "Forecasting changes in climate",
+        "All of these",
+      ],
+      correctIndex: 3,
+    },
+    {
+      type: "mcq",
+      prompt: "Which job did Harvard Business Review describe as \"the sexiest job of the 21st century\"?",
+      options: ["Data scientist", "Software engineer", "Product manager", "Machine learning engineer"],
+      correctIndex: 0,
+    },
+  ];
+
   const overlayActive = Boolean(quiz || helpText || assessmentOpen || summary);
 
   return (
@@ -84,25 +159,40 @@ export default function VideoStudyDemoWrapper({
           videoId={videoId}
           overlayActive={overlayActive}
           onQuizTrigger={(ts) => {
-            const seg = mapToSegment(ts);
-            if (!seg) return;
-            setQuiz(generateQuestionFromText(seg.text));
+            // Don't open any quiz if an overlay is already active
+            if (overlayActive) return;
+            // Only trigger predefined quick quizzes
+            const match = quickQuizzes.find((q) => Math.abs(q.time - ts) <= 5);
+            if (match) {
+              setQuiz(match.question);
+              setQuizTitle("Quick Quiz");
+            }
           }}
           onStruggle={(r) => {
+            if (overlayActive) return;
             const seg = mapToSegment((r.start + r.end) / 2);
             if (!seg) return;
             setHelpText(seg.text);
             setSummary(null);
           }}
           onReminder={() => {
+            if (overlayActive) return;
             setHelpText("It seems you are inactive. Remember to stay focused.");
           }}
-          onEnded={() => setAssessmentOpen(true)}
+          onEnded={() => {
+            if (overlayActive) return;
+            setAssessmentQuestions(endAssessment);
+            setAssessmentOpen(true);
+          }}
         />
         <div className="mt-3 flex justify-end">
           <button
             className="rounded-full bg-violet-600 text-white px-4 py-2 shadow-lg"
-            onClick={() => setAssessmentOpen(true)}
+            onClick={() => {
+              if (overlayActive) return;
+              setAssessmentQuestions(endAssessment);
+              setAssessmentOpen(true);
+            }}
           >
             Take Assessment
           </button>
@@ -111,13 +201,24 @@ export default function VideoStudyDemoWrapper({
 
       {quiz && (
         <QuizOverlay
+          title={quizTitle}
           question={quiz}
           onSubmit={() => {
             setQuiz(null);
+            setQuizTitle(undefined);
           }}
-          onSkip={() => setQuiz(null)}
-          onExplain={() => setQuiz(null)}
-          onClose={() => setQuiz(null)}
+          onSkip={() => {
+            setQuiz(null);
+            setQuizTitle(undefined);
+          }}
+          onExplain={() => {
+            setQuiz(null);
+            setQuizTitle(undefined);
+          }}
+          onClose={() => {
+            setQuiz(null);
+            setQuizTitle(undefined);
+          }}
         />
       )}
 
@@ -165,7 +266,7 @@ export default function VideoStudyDemoWrapper({
 
       {assessmentOpen && (
         <AssessmentOverlay
-          questions={generateAssessmentFromSegments(segments, 5)}
+          questions={assessmentQuestions ?? generateAssessmentFromSegments(segments, 5)}
           onClose={() => setAssessmentOpen(false)}
           onSubmitSubjective={(ans) => gradeSubjective(ans)}
           onComplete={({ score, mode }) =>
