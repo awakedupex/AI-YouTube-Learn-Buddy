@@ -105,11 +105,6 @@ export default function Index({
               </a>
             </div>
           </div>
-          <div className="rounded-xl border p-3 bg-card/60 shadow-xl">
-            <div className="grid gap-3">
-              <VideoStudyDemoWrapper videoId="M7lc1UVf-VE" />
-            </div>
-          </div>
         </div>
       </section>
 
