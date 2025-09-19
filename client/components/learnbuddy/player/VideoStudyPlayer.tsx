@@ -6,13 +6,15 @@ import { Progress } from "@/components/ui/progress";
 interface Props {
   videoId: string;
   onEnded?: () => void;
-  onQuizTrigger?: (timestamp: number) => void;
+  onQuizTrigger?: (timestamp: number) => void; // legacy heuristic trigger
+  onScheduled?: (timestamp: number) => void; // scheduled fixed-time quizzes
+  scheduledQuizzes?: number[];
   onStruggle?: (range: { start: number; end: number }) => void;
   onReminder?: () => void;
   overlayActive?: boolean;
 }
 
-export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onStruggle, onReminder, overlayActive }: Props) {
+export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onStruggle, onReminder, overlayActive, onScheduled, scheduledQuizzes }: Props) {
   const apiRef = useRef<{ getCurrentTime: () => number; getDuration: () => number; seekTo: (s: number) => void; play: () => void; pause: () => void; } | null>(null);
   const [state, setState] = useState<YTPlayerState>("unstarted");
   const [progress, setProgress] = useState(0);
@@ -20,6 +22,7 @@ export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onSt
   const bucketsRef = useRef<Record<number, { pauses: number; rewinds: number; seeks: number }>>({});
   const rewindWindowRef = useRef<{ times: number[] }>({ times: [] });
   const inactivityTimerRef = useRef<number | null>(null);
+  const firedScheduledRef = useRef<Set<number>>(new Set());
 
   const resetInactivity = useCallback(() => {
     if (inactivityTimerRef.current) window.clearTimeout(inactivityTimerRef.current);
