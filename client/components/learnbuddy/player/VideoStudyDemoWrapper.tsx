@@ -48,7 +48,9 @@ export default function VideoStudyDemoWrapper({
   const [helpText, setHelpText] = useState<string | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
   const [assessmentOpen, setAssessmentOpen] = useState(false);
-  const [assessmentQuestions, setAssessmentQuestions] = useState<any[] | null>(null);
+  const [assessmentQuestions, setAssessmentQuestions] = useState<any[] | null>(
+    null,
+  );
 
   useEffect(() => {
     const load = async () => {
@@ -78,12 +80,16 @@ export default function VideoStudyDemoWrapper({
   };
 
   // Predefined quick quizzes (times in seconds)
-  const quickQuizzes: { time: number; question: import("../quiz/engine").Question }[] = [
+  const quickQuizzes: {
+    time: number;
+    question: import("../quiz/engine").Question;
+  }[] = [
     {
       time: 2 * 60 + 24,
       question: {
         type: "mcq",
-        prompt: "Data science involves having knowledge in which of these fields?",
+        prompt:
+          "Data science involves having knowledge in which of these fields?",
         options: [
           "Mathematics and statistics only",
           "Computer science only",
@@ -111,7 +117,8 @@ export default function VideoStudyDemoWrapper({
       time: 6 * 60 + 7,
       question: {
         type: "mcq",
-        prompt: "Which country has the highest number of data scientists on Kaggle?",
+        prompt:
+          "Which country has the highest number of data scientists on Kaggle?",
         options: ["India", "United States", "China", "Germany"],
         correctIndex: 0,
       },
@@ -144,8 +151,14 @@ export default function VideoStudyDemoWrapper({
     },
     {
       type: "mcq",
-      prompt: "Which job did Harvard Business Review describe as \"the sexiest job of the 21st century\"?",
-      options: ["Data scientist", "Software engineer", "Product manager", "Machine learning engineer"],
+      prompt:
+        'Which job did Harvard Business Review describe as "the sexiest job of the 21st century"?',
+      options: [
+        "Data scientist",
+        "Software engineer",
+        "Product manager",
+        "Machine learning engineer",
+      ],
       correctIndex: 0,
     },
   ];
@@ -264,7 +277,9 @@ export default function VideoStudyDemoWrapper({
 
       {assessmentOpen && (
         <AssessmentOverlay
-          questions={assessmentQuestions ?? generateAssessmentFromSegments(segments, 5)}
+          questions={
+            assessmentQuestions ?? generateAssessmentFromSegments(segments, 5)
+          }
           onClose={() => setAssessmentOpen(false)}
           onSubmitSubjective={(ans) => gradeSubjective(ans)}
           onComplete={({ score, mode }) =>
