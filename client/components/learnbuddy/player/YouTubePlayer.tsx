@@ -34,6 +34,16 @@ export default function YouTubePlayer({
 }: YouTubePlayerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
+  const readyRef = useRef<YouTubePlayerProps["onReady"]>(onReady);
+  const stateRef = useRef<YouTubePlayerProps["onStateChange"]>(onStateChange);
+
+  // Keep latest handlers without forcing player remounts
+  useEffect(() => {
+    readyRef.current = onReady;
+  }, [onReady]);
+  useEffect(() => {
+    stateRef.current = onStateChange;
+  }, [onStateChange]);
 
   useEffect(() => {
     let destroyed = false;
@@ -56,7 +66,7 @@ export default function YouTubePlayer({
               play: () => playerRef.current?.playVideo?.(),
               pause: () => playerRef.current?.pauseVideo?.(),
             };
-            onReady?.(api);
+            readyRef.current?.(api);
           },
           onStateChange: (e: any) => {
             const map: Record<number, YTPlayerState> = {
@@ -67,7 +77,7 @@ export default function YouTubePlayer({
               3: "buffering",
               5: "cued",
             };
-            onStateChange?.(map[e.data] ?? "unstarted");
+            stateRef.current?.(map[e.data] ?? "unstarted");
           },
         },
       });
@@ -102,7 +112,7 @@ export default function YouTubePlayer({
       } catch {}
       playerRef.current = null;
     };
-  }, [videoId, onReady, onStateChange]);
+  }, [videoId]);
 
   return (
     <div className="w-full">
