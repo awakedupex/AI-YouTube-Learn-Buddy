@@ -78,60 +78,58 @@ export default function Index({
   return (
     <Layout>
       <section className="container pt-16 pb-10" id="hero">
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <Badge
-              variant="secondary"
-              className="mb-4 px-4 py-2 text-sm md:text-base"
-            >
-              Chrome Extension Concept
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              YouTube Learn Buddy
-            </h1>
-            <p className="mt-4 text-lg text-foreground/80">
-              Smart quiz pop‑ups, struggle detection, gentle reminders,
-              end-of-video assessments, and gamified streaks — all powered by
-              transcripts and your viewing behavior.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <a href="#demo">
-                <Button size="lg">Try the Demo</Button>
-              </a>
-              <a href="#features">
-                <Button size="lg" variant="secondary">
-                  Explore Features
-                </Button>
-              </a>
-            </div>
+        <div className="flex flex-col items-center font-normal">
+          <Badge
+            variant="secondary"
+            className="mb-4 px-4 py-2 text-sm md:text-base"
+          >
+            Chrome Extension
+          </Badge>
+
+          <div className="text-[55px] font-extrabold tracking-tight text-center leading-[48px]">
+            Learn Buddy
           </div>
-          <div className="rounded-xl border p-3 bg-card/60 shadow-xl">
-            <div className="grid gap-3">
-              <VideoStudyDemoWrapper videoId="M7lc1UVf-VE" />
-            </div>
+
+          <p className="mt-4 text-lg text-foreground/80 text-center max-w-[697px]">
+            Smart quiz pop‑ups, struggle detection, gentle reminders, end-of-video
+            assessments, and gamified streaks, all powered by transcripts and
+            engagement patterns.
+          </p>
+
+          <div className="mt-6 flex gap-3">
+            <a href="https://b9af8c1e4e3d496dbe43ffb43a742288-27b51b3b-6c52-4dd3-bb61-f0f055.fly.dev/?reload=1758310228022#demo">
+              <Button size="lg">Try the Demo</Button>
+            </a>
+            <a href="https://b9af8c1e4e3d496dbe43ffb43a742288-27b51b3b-6c52-4dd3-bb61-f0f055.fly.dev/?reload=1758310228022#features">
+              <Button size="lg" variant="secondary">
+                Explore Features
+              </Button>
+            </a>
           </div>
         </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 items-center" />
       </section>
 
       <section className="container py-16" id="features">
         <h2 className="text-2xl font-bold">
-          Everything you need to stay engaged
+          Everything you need to stay engaged!
         </h2>
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <Feature
             title="Smart Quiz Pop‑ups"
-            desc="Auto‑triggered when engagement dips. Multiple choice or fill‑in with explanations."
+            desc="MCQs with solutions will pop up during engagement dips"
           />
           <Feature
             title="Struggle Detection"
-            desc="Rewinds 3+ times? Get a concise, friendly explanation of that segment."
+            desc="Have to rewind a part 3 times? Get a simple and concise explanation of it."
           />
           <Feature
             title="Engagement Reminders"
-            desc="Paused or inactive for 2 minutes? A gentle nudge with Resume / Dismiss / Remind later."
+            desc="Inactive for 2 minutes? A gentle nudge will pop up to keep you focused."
           />
           <Feature
-            title="Learning Assessment"
+            title="End of Video Assessment"
             desc="Choose MCQ or subjective at the end. Optional AI grading with explanations."
           />
           <Feature
@@ -146,14 +144,14 @@ export default function Index({
       </section>
 
       <section className="container py-16" id="demo">
-        <h2 className="text-2xl font-bold">Interactive Demo</h2>
+        <h2 className="text-2xl font-bold">Interactive Demo (MVP)</h2>
         <p className="text-foreground/70 mt-1">
           Load a YouTube video and experience pop‑ups based on your playback
           behavior. For best results, try pausing, seeking, or rewinding a few
           times.
         </p>
         <div className="mt-6 rounded-xl border p-3 bg-card/60 shadow-xl">
-          <VideoStudyDemoWrapper videoId="M7lc1UVf-VE" />
+          <VideoStudyDemoWrapper videoId="B4hSMlPnFC0" />
         </div>
       </section>
 
