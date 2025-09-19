@@ -86,7 +86,7 @@ export default function Index({
             Chrome Extension
           </Badge>
 
-          <div className="text-4xl md:text-5xl font-extrabold tracking-tight text-center">
+          <div className="text-[55px] md:text-[55px] font-extrabold tracking-tight text-center leading-[48px]">
             Learn Buddy
           </div>
 
