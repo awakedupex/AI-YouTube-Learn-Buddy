@@ -53,8 +53,9 @@ export default function YouTubePlayer({
         return;
       if (playerRef.current) return;
       playerRef.current = new window.YT.Player(containerRef.current, {
-        height: "390",
-        width: "640",
+        // use 100% so the iframe fills the container; container uses aspect-video to keep 16:9
+        height: "100%",
+        width: "100%",
         videoId,
         playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
         events: {
