@@ -75,11 +75,14 @@ export default function VideoStudyDemoWrapper({
     );
   };
 
+  const overlayActive = Boolean(quiz || helpText || assessmentOpen || summary);
+
   return (
     <div className="relative">
       <div className="grid gap-3">
         <VideoStudyPlayer
           videoId={videoId}
+          overlayActive={overlayActive}
           onQuizTrigger={(ts) => {
             const seg = mapToSegment(ts);
             if (!seg) return;
