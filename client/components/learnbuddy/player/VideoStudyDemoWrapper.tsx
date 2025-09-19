@@ -158,15 +158,13 @@ export default function VideoStudyDemoWrapper({
         <VideoStudyPlayer
           videoId={videoId}
           overlayActive={overlayActive}
-          onQuizTrigger={(ts) => {
-            // Don't open any quiz if an overlay is already active
-            if (overlayActive) return;
-            // Only trigger predefined quick quizzes
-            const match = quickQuizzes.find((q) => Math.abs(q.time - ts) <= 5);
-            if (match) {
-              setQuiz(match.question);
-              setQuizTitle("Quick Quiz");
-            }
+          scheduledQuizzes={quickQuizzes.map((q) => q.time)}
+          onScheduled={(schedTime) => {
+            // find quiz for this scheduled time and open it
+            const match = quickQuizzes.find((q) => q.time === schedTime);
+            if (!match) return;
+            setQuiz(match.question);
+            setQuizTitle("Quick Quiz");
           }}
           onStruggle={(r) => {
             if (overlayActive) return;
