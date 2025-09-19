@@ -52,6 +52,21 @@ export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onSt
       const d = Math.max(api.getDuration(), 1);
       setProgress((t / d) * 100);
 
+      // Scheduled quizzes: fire when crossing timestamp (within tolerance)
+      if (scheduledQuizzes && scheduledQuizzes.length && onScheduled) {
+        for (const sched of scheduledQuizzes) {
+          if (firedScheduledRef.current.has(sched)) {
+            // allow re-fire if user seeks back before the time
+            if (t < sched - 2) firedScheduledRef.current.delete(sched);
+            continue;
+          }
+          if (Math.abs(t - sched) <= 0.9 && !overlayActive) {
+            firedScheduledRef.current.add(sched);
+            onScheduled(sched);
+          }
+        }
+      }
+
       const delta = t - lastTimeRef.current;
       const bucket = Math.floor(t / 10); // 10s buckets
       bucketsRef.current[bucket] ||= { pauses: 0, rewinds: 0, seeks: 0 };
@@ -82,7 +97,7 @@ export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onSt
       lastTimeRef.current = t;
     }, 1000);
     return () => window.clearInterval(id);
-  }, [onQuizTrigger, onStruggle]);
+  }, [onQuizTrigger, onStruggle, onScheduled, scheduledQuizzes, overlayActive]);
 
   const onStateChange = useCallback((s: YTPlayerState) => {
     setState(s);
