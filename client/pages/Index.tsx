@@ -122,14 +122,14 @@ export default function Index({
           />
           <Feature
             title="Struggle Detection"
-            desc="Rewinds 3+ times? Get a concise, friendly explanation of that segment."
+            desc="Have to rewind a part 3 times? Get a simple and concise explanation of it."
           />
           <Feature
             title="Engagement Reminders"
-            desc="Paused or inactive for 2 minutes? A gentle nudge with Resume / Dismiss / Remind later."
+            desc="Inactive for 2 minutes? A gentle nudge will pop up to keep you focused."
           />
           <Feature
-            title="Learning Assessment"
+            title="End of Video Assessment"
             desc="Choose MCQ or subjective at the end. Optional AI grading with explanations."
           />
           <Feature
