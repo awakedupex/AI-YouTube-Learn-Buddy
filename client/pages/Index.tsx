@@ -113,7 +113,7 @@ export default function Index({
 
       <section className="container py-16" id="features">
         <h2 className="text-2xl font-bold">
-          Everything you need to stay engaged
+          Everything you need to stay engaged!
         </h2>
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <Feature
