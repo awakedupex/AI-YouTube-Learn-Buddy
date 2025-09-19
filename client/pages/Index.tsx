@@ -78,34 +78,37 @@ export default function Index({
   return (
     <Layout>
       <section className="container pt-16 pb-10" id="hero">
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <Badge
-              variant="secondary"
-              className="mb-4 px-4 py-2 text-sm md:text-base"
-            >
-              Chrome Extension Concept
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              YouTube Learn Buddy
-            </h1>
-            <p className="mt-4 text-lg text-foreground/80">
-              Smart quiz pop‑ups, struggle detection, gentle reminders,
-              end-of-video assessments, and gamified streaks — all powered by
-              transcripts and your viewing behavior.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <a href="#demo">
-                <Button size="lg">Try the Demo</Button>
-              </a>
-              <a href="#features">
-                <Button size="lg" variant="secondary">
-                  Explore Features
-                </Button>
-              </a>
-            </div>
+        <div className="flex flex-col items-center font-normal">
+          <Badge
+            variant="secondary"
+            className="mb-4 px-4 py-2 text-sm md:text-base"
+          >
+            Chrome Extension Concept
+          </Badge>
+
+          <div className="text-4xl md:text-5xl font-extrabold tracking-tight text-center">
+            YouTube Learn Buddy
+          </div>
+
+          <p className="mt-4 text-lg text-foreground/80 text-center max-w-2xl">
+            Smart quiz pop‑ups, struggle detection, gentle reminders, end-of-video
+            assessments, and gamified streaks — all powered by transcripts and your
+            viewing behavior.
+          </p>
+
+          <div className="mt-6 flex gap-3">
+            <a href="https://b9af8c1e4e3d496dbe43ffb43a742288-27b51b3b-6c52-4dd3-bb61-f0f055.fly.dev/?reload=1758310228022#demo">
+              <Button size="lg">Try the Demo</Button>
+            </a>
+            <a href="https://b9af8c1e4e3d496dbe43ffb43a742288-27b51b3b-6c52-4dd3-bb61-f0f055.fly.dev/?reload=1758310228022#features">
+              <Button size="lg" variant="secondary">
+                Explore Features
+              </Button>
+            </a>
           </div>
         </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 items-center" />
       </section>
 
       <section className="container py-16" id="features">
