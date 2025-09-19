@@ -83,17 +83,17 @@ export default function Index({
             variant="secondary"
             className="mb-4 px-4 py-2 text-sm md:text-base"
           >
-            Chrome Extension Concept
+            Chrome Extension
           </Badge>
 
           <div className="text-4xl md:text-5xl font-extrabold tracking-tight text-center">
-            YouTube Learn Buddy
+            Learn Buddy
           </div>
 
-          <p className="mt-4 text-lg text-foreground/80 text-center max-w-2xl">
+          <p className="mt-4 text-lg text-foreground/80 text-center max-w-[697px]">
             Smart quiz pop‑ups, struggle detection, gentle reminders, end-of-video
-            assessments, and gamified streaks — all powered by transcripts and your
-            viewing behavior.
+            assessments, and gamified streaks, all powered by transcripts and
+            engagement patterns.
           </p>
 
           <div className="mt-6 flex gap-3">
