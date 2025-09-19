@@ -9,9 +9,10 @@ interface Props {
   onQuizTrigger?: (timestamp: number) => void;
   onStruggle?: (range: { start: number; end: number }) => void;
   onReminder?: () => void;
+  overlayActive?: boolean;
 }
 
-export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onStruggle, onReminder }: Props) {
+export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onStruggle, onReminder, overlayActive }: Props) {
   const apiRef = useRef<{ getCurrentTime: () => number; getDuration: () => number; seekTo: (s: number) => void; play: () => void; pause: () => void; } | null>(null);
   const [state, setState] = useState<YTPlayerState>("unstarted");
   const [progress, setProgress] = useState(0);
@@ -32,6 +33,13 @@ export default function VideoStudyPlayer({ videoId, onEnded, onQuizTrigger, onSt
     lastTimeRef.current = api.getCurrentTime();
     resetInactivity();
   }, [resetInactivity]);
+
+  // Pause playback whenever an overlay popup is active
+  useEffect(() => {
+    if (overlayActive) {
+      apiRef.current?.pause();
+    }
+  }, [overlayActive]);
 
   useEffect(() => {
     const id = window.setInterval(() => {
