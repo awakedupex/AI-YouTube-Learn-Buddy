@@ -151,7 +151,7 @@ export default function Index({
           times.
         </p>
         <div className="mt-6 rounded-xl border p-3 bg-card/60 shadow-xl">
-          <VideoStudyDemoWrapper videoId="SJ2lI4j0kfo" />
+          <VideoStudyDemoWrapper videoId="B4hSMlPnFC0" />
         </div>
       </section>
 
