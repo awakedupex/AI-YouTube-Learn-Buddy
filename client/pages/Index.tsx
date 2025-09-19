@@ -144,7 +144,7 @@ export default function Index({
       </section>
 
       <section className="container py-16" id="demo">
-        <h2 className="text-2xl font-bold">Interactive Demo</h2>
+        <h2 className="text-2xl font-bold">Interactive Demo (MVP)</h2>
         <p className="text-foreground/70 mt-1">
           Load a YouTube video and experience pop‑ups based on your playback
           behavior. For best results, try pausing, seeking, or rewinding a few
